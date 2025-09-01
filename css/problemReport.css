@@ -1,0 +1,37 @@
+body{
+      background-color: cadetblue;
+}
+#feedbackForm form {
+      border: 1px solid #ddd;
+      transition: all 0.3s ease-in-out;
+}
+#feedbackForm form:hover {
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+}
+#feedbackForm h2 {
+      color: #098393;
+      font-weight: bold;
+      border: #ffa600 1px solid;
+      padding: 2px;
+      margin: 2px;
+      box-shadow: 2px 1px 6px saddlebrown;
+}
+#feedbackForm .btn-warning:hover {
+      background-color: #ffa600;
+      transform: scale(1.03);
+}
+#warning{color: #ffa600; font-size: 30px;}
+@keyframes fadeInOut {
+      0%, 100% {
+            opacity: 0;  /* Invisible */
+      }
+      50% {
+            opacity: 1;  /* Fully visible */
+      }
+}
+#warning {
+      animation: fadeInOut 1.5s infinite; /* 1.5 seconds per cycle */
+      color: red; /* Warning color */
+      font-size: 2rem; /* Make it bigger if you want */
+      float: left;
+}

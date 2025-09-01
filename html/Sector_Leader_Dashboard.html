@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Sector Leader Dashboard – Abajyanama & Aid Distribution</title>
+      <meta name="description" content="Dashboard to manage Abajyanama b'Ubuzima and distribute child health aids like Shisha Kibondo, Inzitiramibu, and more." />
+      <link rel="stylesheet" href="/css/Sector_Leader_Dashboard.css">
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+      <a href="#main" class="skip-link">Skip to main content</a>
+      <header aria-label="Top navigation">
+      <div class="brand" aria-label="App brand">
+            <div class="logo" aria-hidden="true">
+            <!-- inline svg logo -->
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1018 0 9 9 0 10-18 0Z" stroke="white" stroke-opacity=".9" stroke-width="2"/>
+                  <path d="M7 13.5l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+            </div>
+            <h1>Sector Leader – Health Aid Dashboard</h1>
+      </div>
+      <div class="grow"></div>
+      <form class="search" role="search" aria-label="Search across dashboard" onsubmit="event.preventDefault(); app.searchAll(this.query.value)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-3.9-3.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/></svg>
+            <input name="query" type="search" placeholder="Search by name, phone, village, item…" aria-label="Search input" onclick="" />
+      </form>
+      <div class="right">
+            <button class="icon-btn bell" aria-label="Notifications" onclick="ui.openNotifications()">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V9a6 6 0 10-12 0v7l-2 2v1h16v-1l-2-2z" stroke="currentColor" stroke-width="1.7"/></svg>
+                  <span class="badge" id="notifCount" aria-live="polite">0</span>
+            </button>
+            <button class="icon-btn" aria-label="Export data" onclick="app.exportCSV()">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span>Export</span>
+            </button>
+      </div>
+</header>
+      <div class="app">
+      <!-- SIDEBAR NAV -->
+      <nav aria-label="Sidebar">
+            <div class="nav-section">
+                  <div class="nav-title">Overview</div>
+                  <a class="nav-link active" href="#" data-target="dashboard" onclick="ViewDashboard()" aria-current="page">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l9-9 9 9v9a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1v-9z" stroke="currentColor" stroke-width="1.6"/></svg>
+                        <span>Dashboard</span>
+                  </a>
+                  <a class="nav-link" href="#" data-target="workers" onclick="openAbajyanama()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 11a4 4 0 10-8 0 4 4 0 008 0z" stroke="currentColor" stroke-width="1.6"/><path d="M3 21a9 9 0 1118 0" stroke="currentColor" stroke-width="1.6"/></svg>
+                        <span>Abajyanama</span>
+                  </a>
+                  <a class="nav-link" href="#" data-target="distribute" onclick="openDistribution()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                        <span>Distribute Aids</span>
+                  </a>
+                  <a class="nav-link" href="#" data-target="inventory" onclick="openInventory()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.6"/></svg>
+                        <span>Inventory</span>
+                  </a>
+                  <a class="nav-link" href="#" data-target="reports" onclick="openReport()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V4h4v16H4zm6 0V10h4v10h-4zm6 0V6h4v14h-4z" stroke="currentColor" stroke-width="1.6"/></svg>
+                        <span>Reports</span>
+                  </a>
+            </div>
+      </nav>
+      <!-- MAIN CONTENT -->
+      <main id="main" tabindex="-1">
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="grid cols-4" role="region" aria-labelledby="dashTitle">
+            <div class="card" style="grid-column:1 / -1">
+                  <h2 id="dashTitle" style="margin:0 0 .75rem">Today at a glance</h2>
+                  <p class="muted">Manage <strong id="statWorkers">0</strong> Abajyanama; distributed <strong id="statItems">0</strong> items to <strong id="statChildren">0</strong> children this month. Low stock: <span id="statLow" class="badge-pill">0</span></p>
+            </div>
+            <div class="card stat"><div class="dot" aria-hidden="true">👩🏽‍⚕️</div><div><div class="muted">Abajyanama</div><strong id="kpiWorkers">0</strong></div></div>
+            <div class="card stat"><div class="dot" aria-hidden="true">🎁</div><div><div class="muted">Items Distributed</div><strong id="kpiDistributed">0</strong></div></div>
+            <div class="card stat"><div class="dot" aria-hidden="true">🧒🏽</div><div><div class="muted">Children Reached</div><strong id="kpiChildren">0</strong></div></div>
+            <div class="card stat"><div class="dot" aria-hidden="true">⚠️</div><div><div class="muted">Low-Stock Items</div><strong id="kpiLow">0</strong></div></div>
+
+            <div class="card" style="grid-column:1 / -1; display: none">
+                  <h3>Recent Distributions</h3>
+                  <div class="toolbar" style="margin:.5rem 0 1rem">
+                        <span class="badge-pill">Month: <span id="monthLabel"></span></span>
+                        <button class="btn ghost" onclick="ui.openQuickDistribution()">Quick distribute</button>
+                  </div>
+                  <div style="overflow:auto">
+                        <table aria-label="Recent distributions table">
+                              <thead><tr>
+                                    <th>Date</th><th>Abajyanama</th><th>Child</th><th>Item</th><th>Qty</th><th>Village</th>
+                              </tr></thead>
+                                    <tbody id="recentBody"></tbody>
+                        </table>
+                  </div>
+            </div>
+      </section>
+      <!--CHARTS-->
+      <section class="grid cols-2" style="margin-top:1rem;" id="chart1">
+            <div class="card">
+                  <h3>Distribution Trend (Weekly)</h3>
+                  <canvas id="distributionTrendChart"></canvas>
+            </div>
+            <div class="card">
+                  <h3>Stock Levels</h3>
+                  <canvas id="stockLevelChart"></canvas>
+            </div>
+      </section>
+      <section class="grid cols-2" style="margin-top:1rem;" id="chart2">
+            <div class="card">
+                  <h3>Top Abajyanama</h3>
+                  <ol id="topWorkers"></ol>
+            </div>
+            <div class="card">
+                  <h3>Items Distributed</h3>
+                  <ol id="topItems"></ol>
+            </div>
+      </section>
+      <!-- HEALTH SUPPORT STATISTICS CARD -->
+      <div class="card2" style="grid-column: 1 / -1;" id="progressBar">
+            <h2>HEALTH SUPPORT STATISTICS</h2>
+            <p style="color: cadetblue;">Overview of abajyanama b'ubuzima statistics, to visualize where the effort will be applied more</p>
+            <!-- Progress Bars -->
+            <div class="progress-container">
+                  <span class="progress-label">Abajyanama Activity</span>
+                  <div class="progress-bar" id="progressWorkers">0%</div>
+            </div>
+            <div class="progress-container">
+                  <span class="progress-label">Distribution Progress</span>
+                  <div class="progress-bar" id="progressDistributed">0%</div>
+            </div>
+            <div class="progress-container">
+                  <span class="progress-label">Children Reached</span>
+                  <div class="progress-bar" id="progressChildren">0%</div>
+            </div>
+            <div class="progress-container">
+                  <span class="progress-label">Low Stock Items</span>
+                  <div class="progress-bar" id="progressLow">0%</div>
+            </div>
+      </div>
+      <!-- WORKERS -->
+      <section id="view-workers" hidden role="region" aria-labelledby="workersTitle" class="grid cols-2" style="display: none;">
+            <div class="card">
+                  <h2 id="workersTitle" style="margin-top:0">Register Abajyanama b'Ubuzima</h2>
+                  <form id="workerForm" onsubmit="handlers.addWorker(event)" aria-describedby="workerHelp">
+                  <p id="workerHelp" class="muted">Record CHW details. Fields with * are required.</p>
+                  <div class="row">
+                        <div class="col-6">
+                              <label for="wName">Full name *</label>
+                              <input id="wName" name="name" required autocomplete="name" />
+                        </div>
+                        <div class="col-6">
+                             <label for="wPhone">Phone *</label>
+                              <input id="wPhone" name="phone" required inputmode="tel" pattern="[0-9+\- ]{10,}" placeholder="07xx xxx xxx" />
+                        </div>
+                        <div class="col-6">
+                             <label for="wCode">CHW Code *</label>
+                              <input id="wCode" name="code" required placeholder="e.g., ABJ-045" />
+                        </div>
+                        <div class="col-6">
+                              <label for="wGender">Gender</label>
+                              <select id="wGender" name="gender">
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                              </select>
+                        </div>
+                        <div class="col-4">
+                              <label for="wVillage">Village *</label>
+                              <input id="wVillage" name="village" required />
+                        </div>
+                        <div class="col-4">
+                              <label for="wCell">Cell *</label>
+                              <input id="wCell" name="cell" required />
+                        </div>
+                        <div class="col-4">
+                             <label for="wSector">Sector *</label>
+                              <input id="wSector" name="sector" required />
+                        </div>
+                        <div class="col-12">
+                              <label for="wNotes">Notes</label>
+                              <textarea id="wNotes" name="notes" rows="2" placeholder="Experience, coverage area, etc."></textarea>
+                        </div>
+                  </div>
+                  <div style="display:flex; gap:.5rem; margin-top:.75rem">
+                        <button class="btn primary" type="submit">Save/ Register umujyanama</button>
+                        <button class="btn ghost" type="reset">Reset</button>
+                  </div>
+            </form>
+            </div>
+            <div class="card">
+                  <div style="display:flex; justify-content:space-between; align-items:center">
+                        <h3 style="margin:.2rem 0">Abajyanama Registry</h3>
+                        <div class="toolbar">
+                              <input id="workerSearch" placeholder="Search by name, phone, village…" oninput="ui.renderWorkers()" aria-label="Search workers" />
+                              <select id="workerFilterSector" onchange="ui.renderWorkers()" aria-label="Filter by sector"></select>
+                        </div>
+                  </div>
+                  <div style="overflow:auto; max-height:520px">
+                  <table aria-label="Workers table">
+                        <thead><tr>
+                        <th>Name</th><th>Phone</th><th>Code</th><th>Village</th><th>Cell</th><th>Sector</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="workerBody"></tbody>
+                  </table>
+                  </div>
+            </div>
+      </section>
+      <!-- DISTRIBUTION -->
+      <section id="view-distribute" hidden role="region" aria-labelledby="distTitle" class="grid cols-2" style="display: none;">
+            <div class="card">
+                  <h2 id="distTitle" style="margin-top:0">Record Aid Distribution</h2>
+                  <form id="distForm" onsubmit="handlers.addDistribution(event)">
+                        <div class="row">
+                              <div class="col-6">
+                                   <label for="dWorker">Abajyanama *</label>
+                                    <select id="dWorker" name="workerId" required></select>
+                              </div>
+                              <div class="col-6">
+                                   <label for="dDate">Date *</label>
+                                    <input id="dDate" name="date" type="date" required />
+                              </div>
+                              <div class="col-6">
+                                    <label for="dChild">Child name *</label>
+                                    <input id="dChild" name="child" required placeholder="e.g., Niragire Aline" />
+                              </div>
+                              <div class="col-6">
+                                    <label for="dAge">Child age (months)</label>
+                                    <input id="dAge" name="age" type="number" min="0" max="60" />
+                              </div>
+                              <div class="col-6">
+                                   <label for="dItem">Aid item *</label>
+                                    <select id="dItem" name="item" required></select>
+                              </div>
+                              <div class="col-3">
+                                    <label for="dQty">Quantity *</label>
+                                    <input id="dQty" name="qty" type="number" min="1" required />
+                              </div>
+                              <div class="col-3">
+                                    <label for="dVillage">Village *</label>
+                                    <input id="dVillage" name="village" required />
+                              </div>
+                              <div class="col-12">
+                                    <label for="dNotes">Notes</label>
+                                    <textarea id="dNotes" name="notes" rows="2" placeholder="e.g., Child underweight; follow-up next week"></textarea>
+                              </div>
+                        </div>
+                        <div style="display:flex; gap:.5rem; margin-top:.75rem">
+                              <button class="btn primary" type="submit">Record Distribution</button>
+                              <button class="btn ghost" type="reset">Reset</button>
+                        </div>
+                  </form>
+                  </div>
+                  <div class="card">
+                        <div style="display:flex; justify-content:space-between; align-items:center">
+                              <h3 style="margin:.2rem 0">All Distributions</h3>
+                              <div class="toolbar">
+                                    <input id="distSearch" placeholder="Search child, item, village…" oninput="ui.renderDistributions()" aria-label="Search distributions" />
+                                    <select id="distFilterItem" onchange="ui.renderDistributions()" aria-label="Filter by item"></select>
+                              </div>
+                        </div>
+                        <div style="overflow:auto; max-height:520px">
+                        <table aria-label="Distributions table">
+                              <thead><tr>
+                              <th>Date</th><th>Abajyanama</th><th>Child</th><th>Item</th><th>Qty</th><th>Village</th><th>Actions</th>
+                              </tr></thead>
+                              <tbody id="distBody"></tbody>
+                        </table>
+                  </div>
+            </div>
+      </section>
+
+      <!-- INVENTORY -->
+      <section id="view-inventory" hidden role="region" aria-labelledby="invTitle" class="grid cols-2" style="display: none;" onclick="openInventory()">
+            <div class="card">
+                  <h2 id="invTitle" style="margin-top:0">Inventory</h2>
+                  <form id="itemForm" onsubmit="handlers.addOrUpdateItem(event)">
+                  <div class="row">
+                        <div class="col-6">
+                              <label for="iName">Item name *</label>
+                              <input id="iName" name="name" required placeholder="e.g., Shisha Kibondo" />
+                        </div>
+                        <div class="col-3">
+                             <label for="iStock">In stock *</label>
+                              <input id="iStock" name="stock" type="number" min="0" required />
+                        </div>
+                        <div class="col-3">
+                              <label for="iMin">Min level</label>
+                              <input id="iMin" name="min" type="number" min="0" value="10" />
+                        </div>
+                  </div>
+                  <div style="display:flex; gap:.5rem; margin-top:.75rem">
+                        <button class="btn primary" type="submit">Save Item</button>
+                        <button class="btn ghost" type="button" onclick="handlers.resetItemForm()">New</button>
+                  </div>
+                  </form>
+            </div>
+            <div class="card">
+                  <h3 style="margin:.2rem 0">Stock Levels</h3>
+                  <div style="overflow:auto; max-height:520px">
+                        <table aria-label="Inventory table">
+                              <thead><tr>
+                              <th>Item</th><th>Stock</th><th>Min</th><th>Status</th><th>Actions</th>
+                              </tr></thead>
+                              <tbody id="invBody"></tbody>
+                        </table>
+                  </div>
+            </div>
+      </section>
+
+      <!-- REPORTS -->
+      <section id="view-reports" hidden role="region" aria-labelledby="repTitle" class="grid cols-2" style="display: none;">
+            <div class="card" style="grid-column:1 / -1">
+                  <h2 id="repTitle" style="margin:0 0 .75rem">Quick Reports</h2>
+                  <div class="row">
+                        <div class="col-6">
+                              <div class="card">
+                                    <h3>Top Abajyanama (This Month)</h3>
+                                    <ol id="topWorkers" style="padding-left:1.2rem"></ol>
+                              </div>
+                        </div>
+                        <div class="col-6">
+                              <div class="card">
+                                    <h3>Items Distributed (This Month)</h3>
+                                    <ol id="topItems" style="padding-left:1.2rem"></ol>
+                              </div>
+                        </div>
+                  </div>
+                  <div style="margin-top:.75rem" class="toolbar">
+                        <button class="btn primary" onclick="app.exportCSV()">Export All CSV</button>
+                        <button class="btn ghost" onclick="app.clearAll()">Reset Demo Data</button>
+                  </div>
+            </div>
+      </section>
+      <!-- TOASTS -->
+      <div class="toasts" aria-live="polite" aria-atomic="true" id="toasts"></div>
+      <!-- QUICK DISTRIBUTION MODAL -->
+      <dialog id="quickDist">
+            <div class="modal-head">
+                  <strong>Quick Distribution</strong>
+                  <button class="icon-btn" onclick="document.getElementById('quickDist').close()" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-body">
+            <form onsubmit="handlers.addDistribution(event, true)">
+                  <div class="row">
+                        <div class="col-6">
+                              <label for="qdWorker">Abajyanama *</label>
+                              <select id="qdWorker" name="workerId" required></select>
+                        </div>
+                        <div class="col-6">
+                              <label for="qdItem">Aid item *</label>
+                              <select id="qdItem" name="item" required></select>
+                        </div>
+                        <div class="col-6">
+                              <label for="qdChild">Child *</label>
+                              <input id="qdChild" name="child" required />
+                        </div>
+                        <div class="col-3">
+                              <label for="qdQty">Qty *</label>
+                              <input id="qdQty" name="qty" type="number" min="1" required />
+                        </div>
+                        <div class="col-3">
+                              <label for="qdVillage">Village *</label>
+                              <input id="qdVillage" name="village" required />
+                        </div>
+                  </div>
+                  <div style="display:flex; gap:.5rem; margin-top:.75rem">
+                        <button class="btn primary" type="submit">Record</button>
+                        <button class="btn ghost" type="button" onclick="document.getElementById('quickDist').close()">Cancel</button>
+                  </div>
+            </form>
+            </div>
+      </dialog>
+
+      </main>
+      </div>
+      <footer>
+            <small>© <span id="year"></span> Sector Health Aid System • Accessible • Offline demo (localStorage)</small>
+      </footer>
+      <script src="/js/Sector_Leader_Dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Tracking Solution for Health Service Transparency</title>
+  <link rel="icon" type="image/png" href="/images/food aid.png" />
+  <!-- Bootstrap & Icons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/index.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  </head>
+  <body>
+  <a class="skip-link focus-ring" href="#main">Skip to main content</a>
+
+  <!-- Site Header / Navigation -->
+  <nav class="navbar navbar-expand-lg bg-white sticky-top" role="navigation" aria-label="Primary">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 focus-ring" href="/" aria-label="Homepage">
+        <img src="/images/food aid.png" alt="Project logo" />
+        <span class="fw-bold">DTS Health Transparency</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item"><a class="nav-link focus-ring" href="#home" aria-current="page"><i class="fa-solid fa-house me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link focus-ring" href="./html/service.html">Track Deliveries</a></li>
+          <li class="nav-item"><a class="nav-link focus-ring" href="/html/verifyAid.html">Verify Aid</a></li>
+          <li class="nav-item"><a class="nav-link focus-ring" href="./html/problemReport.html">Report Issue</a></li>
+
+          <!-- Extra nav only for signed-in users -->
+          <li class="nav-item d-none" data-auth="signed"><a class="nav-link focus-ring" href="/html/dashboard.html"><i class="fa-solid fa-gauge-high me-1"></i>Dashboard</a></li>
+          <li class="nav-item d-none" data-auth-role="leader"><a class="nav-link focus-ring" href="/html/leaderPanel.html"><i class="fa-solid fa-users-gear me-1"></i>Leader Panel</a></li>
+
+          <!-- Notifications -->
+          <li class="nav-item dropdown position-relative d-none" id="notifWrapper" data-auth="signed">
+            <button class="btn btn-link nav-link p-0 position-relative focus-ring" id="notifBtn" aria-expanded="false" aria-controls="notifPanel" aria-haspopup="true">
+              <i class="fa-solid fa-bell"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifBadge" aria-live="polite" aria-atomic="true">0</span>
+              <span class="visually-hidden">Notifications</span>
+            </button>
+            <div id="notifPanel" role="dialog" aria-labelledby="notifTitle" aria-modal="true">
+              <header id="notifTitle" class="d-flex align-items-center justify-content-between">
+                <span>Notifications</span>
+                <button class="btn btn-sm btn-outline-secondary focus-ring" id="markAllRead">Mark all read</button>
+              </header>
+              <ul id="notifList" class="list-unstyled m-0"></ul>
+              <div class="p-2 text-center"><button class="btn btn-sm btn-light focus-ring" id="closeNotif">Close</button></div>
+            </div>
+          </li>
+
+          <!-- Profile / Sign in -->
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle focus-ring" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-circle-user me-1"></i><span id="navUserLabel">Sign in</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+              <li><a class="dropdown-item" href="/html/citizenLogin.html">Citizen login</a></li>
+              <li><a class="dropdown-item" href="/html/leaderLogin.html">Leader login</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><button class="dropdown-item" id="demoSignInCitizen" type="button">Demo: Sign in as Citizen</button></li>
+              <li><button class="dropdown-item" id="demoSignInLeader" type="button">Demo: Sign in as Leader</button></li>
+              <li><button class="dropdown-item text-danger d-none" id="demoSignOut" type="button">Sign out</button></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero / Header -->
+  <header id="home" class="hero" role="banner">
+    <div class="container text-center">
+      <h1 class="display-5 glow">Kigali Digital Tracking Solution for Health Service Transparency</h1>
+      <p class="lead text-secondary mt-2">Track deliveries, verify aid, and build trust between communities and leaders.</p>
+      <div class="d-flex justify-content-center gap-2 mt-3">
+        <a class="btn btn-primary focus-ring" href="./html/service.html"><i class="fa-solid fa-location-crosshairs me-1"></i>Track Deliveries</a>
+        <a class="btn btn-outline-secondary focus-ring" href="#learn">Learn More</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- Learn / Image Grid -->
+    <section id="learn" class="container py-4">
+      <h2 class="h4 mb-3">How the system works</h2>
+      <div class="image-grid">
+        <article class="soft-card hoverable">
+          <img src="/images/children2.jpg" alt="Community health workers delivering aid" />
+          <h3 class="h6 mt-2">Transparent Tracking</h3>
+          <p class="text-secondary">Every delivery is logged with time, location, and recipient to ensure accountability.</p>
+          <button class="btn btn-sm btn-outline-primary focus-ring" data-modal-target="#modal1">Learn more</button>
+        </article>
+        <article class="soft-card hoverable">
+          <img src="/images/health2.png" alt="Dashboard view of goals and metrics" />
+          <h3 class="h6 mt-2">Future Goals</h3>
+          <p class="text-secondary">District-wide roll-out, offline-first mobile, and SMS verification for remote areas.</p>
+          <button class="btn btn-sm btn-outline-primary focus-ring" data-modal-target="#modal2">Learn more</button>
+        </article>
+        <article class="soft-card hoverable">
+          <img src="/images/children1.jpg" alt="Parents and children accessing services" />
+          <h3 class="h6 mt-2">Why It Matters</h3>
+          <p class="text-secondary">Visibility increases trust, reduces waste, and accelerates response to problems.</p>
+          <button class="btn btn-sm btn-outline-primary focus-ring" data-modal-target="#modal3">Learn more</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="container pb-4">
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="stat"><div class="text-uppercase small text-secondary">Meals Delivered</div><h3 id="mealsCount">50,000</h3></div></div>
+        <div class="col-6 col-md-3"><div class="stat"><div class="text-uppercase small text-secondary">People Helped</div><h3 id="peopleCount">15,000</h3></div></div>
+        <div class="col-6 col-md-3"><div class="stat"><div class="text-uppercase small text-secondary">Districts Covered</div><h3 id="districtCount">30</h3></div></div>
+        <div class="col-6 col-md-3"><div class="stat"><div class="text-uppercase small text-secondary">Transparency Score</div><h3 id="scoreCount">95%</h3></div></div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="container py-5">
+      <h2 class="h4 text-center mb-4">What people say</h2>
+      <div class="row g-4 text-center">
+        <div class="col-md-4">
+          <img src="images/Portrait of a Young Man.png" class="rounded-circle mb-2" width="96" height="96" alt="Portrait of Adolphe Nayituriki" />
+          <blockquote class="mb-1">“Thanks to this platform, aid reaches children who need it most!”</blockquote>
+          <p class="text-secondary small">— Adolphe Nayituriki, Burera</p>
+        </div>
+        <div class="col-md-4">
+          <img src="images/felicite (1).jpg" class="rounded-circle mb-2" width="96" height="96" alt="Portrait of Nyiranziza Felicite" />
+          <blockquote class="mb-1">“I can now track where donations are going in real time.”</blockquote>
+          <p class="text-secondary small">— Nyiranziza Felicite, Nyaruguru</p>
+        </div>
+        <div class="col-md-4">
+          <img src="/images/Evariste.jpg" class="rounded-circle mb-2" width="96" height="96" alt="Portrait of Munyentwari Evariste" />
+          <blockquote class="mb-1">“This system builds trust between communities and leaders.”</blockquote>
+          <p class="text-secondary small">— Munyentwari Evariste, Burera</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="container pb-5">
+      <h2 class="h4 text-center mb-3">Frequently asked questions</h2>
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q1h">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="true" aria-controls="q1">How do I track aid?</button>
+          </h2>
+          <div id="q1" class="accordion-collapse collapse show" aria-labelledby="q1h" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">Log in to your account and go to the <strong>Track Deliveries</strong> section to view live status and history.</div>
+            <div class="px-3 pb-3"><a class="btn btn-success btn-sm" href="./html/service.html">Let's get started</a></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">Who can report issues or suggestions?</button>
+          </h2>
+          <div id="q2" class="accordion-collapse collapse" aria-labelledby="q2h" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">Any registered user can submit a complaint or suggestion. Reports are routed to the appropriate leader.</div>
+            <div class="px-3 pb-3"><a class="btn btn-primary btn-sm" href="./html/problemReport.html">Open report form</a></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q2h">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">Who are this aid oriented to?</button>
+          </h2>
+          <div id="q2" class="accordion-collapse collapse" aria-labelledby="q2h" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">This aid is given to all vulnerable children and those who are responsible to this</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-5 text-dark text-center" style="background:#fff7cc;">
+      <div class="container">
+        <h2 class="h5 mb-1">Subscribe for transparency updates</h2>
+        <p class="text-secondary small mb-3">We'll only send useful, occasional updates.</p>
+        <form class="d-flex justify-content-center gap-2" aria-label="Newsletter form">
+          <label for="nlEmail" class="sr-only">Email</label>
+          <input id="nlEmail" type="email" class="form-control w-50" placeholder="Enter your email" required />
+          <button class="btn btn-dark" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="py-5 bg-light text-center">
+      <div class="container">
+        <h2 class="h5 mb-4">Our partners</h2>
+        <div class="row g-3 align-items-center">
+          <div class="col-6 col-md-3"><a href="https://www.wfp.org/countries/rwanda"><img src="images/partner3.svg" class="img-fluid" alt="World Food Programme Rwanda" /></a></div>
+          <div class="col-6 col-md-3"><img src="images/partner2.jpg" class="img-fluid" alt="Partner logo 2" /></div>
+          <div class="col-6 col-md-3"><img src="images/partners.png" class="img-fluid" alt="Partner logos montage" /></div>
+          <div class="col-6 col-md-3"><img src="images/supporting output.png" class="img-fluid" alt="Supporting organizations" /></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Contact & Footer -->
+  <footer class="pt-5">
+    <div class="container">
+      <div class="row g-4 align-items-start">
+        <div class="col-lg-7">
+          <h2 class="h5 mb-3">Contact us</h2>
+          <form action="https://formsubmit.co/www.nayituriki.com@gmail.com" method="POST" class="soft-card">
+            <div class="row g-2">
+              <div class="col-sm-6">
+                <label for="fullName" class="form-label">Full name</label>
+                <input id="fullName" name="name" type="text" class="form-control" required />
+              </div>
+              <div class="col-sm-6">
+                <label for="district" class="form-label">District</label>
+                <input id="district" name="district" type="text" class="form-control" required />
+              </div>
+              <div class="col-sm-6">
+                <label for="sector" class="form-label">Sector</label>
+                <input id="sector" name="sector" type="text" class="form-control" required />
+              </div>
+              <div class="col-sm-6">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" name="email" type="email" class="form-control" required />
+              </div>
+              <div class="col-12">
+                <label for="message" class="form-label">Message</label>
+                <textarea id="message" name="message" class="form-control" rows="3" required></textarea>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <button class="btn btn-success" type="submit">Send</button>
+              <small class="text-secondary">© 2025 Food Aid Transparency Project</small>
+            </div>
+          </form>
+          <p class="mt-5" style="font-size: 12px;">Reduced Malnutrition – Fewer children suffer from stunting or wasting, leading to better growth and learning outcomes.
+                  Higher Productivity – Healthy citizens contribute more effectively to Rwanda’s economy and community development.
+                  Public Trust – Transparent food delivery builds confidence in government and partner organizations.
+                  Efficient Use of Resources – Accountability ensures aid reaches the intended beneficiaries without waste or corruption.
+                  Stronger International Support – Donors invest more in Rwanda when they see transparency and measurable impact.
+                  Sustainable Development – Healthy populations drive long-term progress in education, economy, and social stability</p>
+        </div>
+        <div class="col-lg-5">
+          <div class="soft-card">
+            <h3 class="h6">Quick links</h3>
+            <ul class="list-unstyled mb-0">
+              <li><a href="./html/service.html" class="link-dark">Track deliveries</a></li>
+              <li><a href="/html/verifyAid.html" class="link-dark">Verify aid</a></li>
+              <li><a href="./html/problemReport.html" class="link-dark">Report issue</a></li>
+              <li><a href="/html/citizenLogin.html" class="link-dark">Citizen login</a></li>
+              <li><a href="/html/leaderLogin.html" class="link-dark">Leader login</a></li>
+              <h3 style="color: #dd2476;">Open Chartboard</h3>
+              <p style="color: burlywood;">this is ai developed to help people to ask some related to this platform</p>
+              <button id="chatToggle2" class="btn btn-lg btn-primary rounded-circle shadow focus-ring" aria-expanded="false" aria-controls="chatBoard" aria-label="Open chat">
+                <i class="fa-solid fa-comments"></i>
+              </button>
+            </ul>
+          </div>
+          <h2 style="text-align: center;" class="cnt mt-3">follow our platform on the following socialmedias</h2>
+          <div class="footerContacts d-flex justify-content-center mb-3">
+                  <a href="https://github.com/adolphenayituriki" target="_blank" title="GitHub" style="color: white;"><i class="fa-brands fa-github"></i></a>
+                  <a href="#" target="_blank" title="LinkedIn" style="color:#0077b5;"><i class="fa-brands fa-linkedin"></i></a>
+                  <a href="#" target="_blank" title="Instagram" style="color:#dd2476;"><i class="fa-brands fa-square-instagram"></i></a>
+                  <a href="http://www.youtube.com/@Relax-words03" target="_blank" title="YouTube" style="color:#ff0000;" onclick="link()"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p>Rwanda aids delively by inclusion and transparency, to enhance quality life at all country's peoples. </p>
+        </div>
+      </div>
+      <div class="text-center py-3">
+        <a href="#home" class="btn btn-outline-light btn-sm focus-ring"><i class="fa-solid fa-arrow-up me-1"></i>Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals (accessible) -->
+  <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal1Label">Transparent Tracking</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Delivery entries are timestamped and geotagged; tamper-evident logs ensure integrity.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal2Label">Future Goals</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Offline-first mobile app, SMS verification, and district-level analytics rollout.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal3Label">Why It Matters</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Transparency builds trust, reduces leakage, and speeds up response to issues.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Chat -->
+  <button id="chatToggle" class="btn btn-lg btn-primary rounded-circle shadow focus-ring" aria-expanded="false" aria-controls="chatBoard" aria-label="Open chat">
+    <i class="fa-solid fa-comments"></i>
+  </button>
+  <section id="chatBoard" aria-label="Live chat" aria-live="polite">
+    <div class="chat-header">
+      <strong>Live Chat</strong>
+      <button class="btn btn-sm btn-light focus-ring" id="closeChat" aria-label="Close chat">Close</button>
+    </div>
+    <div class="chat-body" id="chatHistory">
+      <p><strong>Support:</strong> Hello! How can we help you today?</p>
+    </div>
+    <div class="chat-footer">
+      <label for="chatInput" class="sr-only">Your message</label>
+      <input type="text" id="chatInput" class="form-control" placeholder="Type your message…" />
+      <button id="sendBtn" class="btn btn-primary">Send</button>
+    </div>
+  </section>
+
+  <!-- Scripts: Bootstrap, app logic, plus your requested files at the very end -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!--  DOM) -->
+  <script src="/js/index.js"></script>
+  <script src="/js/statistics.js"></script>
+</body>
+</html>

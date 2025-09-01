@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Leaders</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body { background-color: #f4f6f9; font-family: Arial, sans-serif; }
+        .container { margin-top: 30px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header h2 { color: #083503; }
+        table { background: white; border-radius: 8px; overflow: hidden; }
+        th { background: #083503; color: white; text-align: center; }
+        td { text-align: center; }
+        .btn-sm { padding: 3px 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Manage Leaders</h2>
+        <div>
+            <select id="filterLevel" class="form-select d-inline-block" style="width:200px;" onchange="filterLeaders()">
+                <option value="All">All Levels</option>
+                <option value="National">National</option>
+                <option value="District">District</option>
+                <option value="Sector">Sector</option>
+                <option value="Cell">Cell</option>
+            </select>
+            <button class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#addLeaderModal"><i class="fa-solid fa-plus"></i> Add Leader</button>
+        </div>
+    </div>
+
+    <!-- Leaders Table -->
+    <table class="table table-bordered" id="leadersTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Level</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-level="District">
+                <td>1</td>
+                <td>John Doe</td>
+                <td>+250 788 123 456</td>
+                <td>john.doe@example.com</td>
+                <td>District</td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="editLeader(this)">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteLeader(this)">Delete</button>
+                </td>
+            </tr>
+            <tr data-level="Sector">
+                <td>2</td>
+                <td>Jane Smith</td>
+                <td>+250 722 789 123</td>
+                <td>jane.smith@example.com</td>
+                <td>Sector</td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="editLeader(this)">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteLeader(this)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal: Add Leader -->
+<div class="modal fade" id="addLeaderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Leader</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="leaderForm">
+                    <input type="hidden" id="editIndex">
+                    <div class="mb-3">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="leaderName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" id="leaderPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="leaderEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Level</label>
+                        <select class="form-select" id="leaderLevel" required>
+                            <option value="National">National</option>
+                            <option value="District">District</option>
+                            <option value="Sector">Sector</option>
+                            <option value="Cell">Cell</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Leader</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const table = document.getElementById('leadersTable').getElementsByTagName('tbody')[0];
+
+    // Filter Leaders by Level
+    function filterLeaders() {
+        const filter = document.getElementById('filterLevel').value;
+        const rows = table.querySelectorAll('tr');
+        rows.forEach(row => {
+            if (filter === 'All' || row.getAttribute('data-level') === filter) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Add or Edit Leader
+    document.getElementById('leaderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('leaderName').value;
+        const phone = document.getElementById('leaderPhone').value;
+        const email = document.getElementById('leaderEmail').value;
+        const level = document.getElementById('leaderLevel').value;
+        const index = document.getElementById('editIndex').value;
+
+        if (index) {
+            const row = table.rows[index];
+            row.cells[1].textContent = name;
+            row.cells[2].textContent = phone;
+            row.cells[3].textContent = email;
+            row.cells[4].textContent = level;
+            row.setAttribute('data-level', level);
+        } else {
+            const newRow = table.insertRow();
+            newRow.setAttribute('data-level', level);
+            newRow.insertCell(0).textContent = table.rows.length;
+            newRow.insertCell(1).textContent = name;
+            newRow.insertCell(2).textContent = phone;
+            newRow.insertCell(3).textContent = email;
+            newRow.insertCell(4).textContent = level;
+            newRow.insertCell(5).innerHTML = `
+                <button class="btn btn-info btn-sm" onclick="editLeader(this)">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteLeader(this)">Delete</button>
+            `;
+        }
+
+        document.getElementById('leaderForm').reset();
+        document.getElementById('editIndex').value = '';
+        bootstrap.Modal.getInstance(document.getElementById('addLeaderModal')).hide();
+    });
+
+    // Edit Leader
+    function editLeader(btn) {
+        const row = btn.closest('tr');
+        const index = row.rowIndex - 1;
+        document.getElementById('leaderName').value = row.cells[1].textContent;
+        document.getElementById('leaderPhone').value = row.cells[2].textContent;
+        document.getElementById('leaderEmail').value = row.cells[3].textContent;
+        document.getElementById('leaderLevel').value = row.cells[4].textContent;
+        document.getElementById('editIndex').value = index;
+        new bootstrap.Modal(document.getElementById('addLeaderModal')).show();
+    }
+
+    // Delete Leader
+    function deleteLeader(btn) {
+        if (confirm('Are you sure you want to delete this leader?')) {
+            const row = btn.closest('tr');
+            table.deleteRow(row.rowIndex - 1);
+        }
+    }
+</script>
+</body>
+</html>

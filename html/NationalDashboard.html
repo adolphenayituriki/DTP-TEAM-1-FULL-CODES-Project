@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>District Reports - DTS</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+      <link rel="stylesheet" href="/css/NationalDashboard.css">
+</head>
+<body>
+<!-- Sidebar -->
+      <div class="sidebar">
+            <h4 class="text-center mb-4">National Dashboard</h4>
+            <a href="/html/Overview.html"><i class="fa-solid fa-chart-line me-2"></i> Overview</a>
+            <a href="/html/district_Report.html" class="bg-primary rounded"><i class="fa-solid fa-map me-2"></i> District Reports</a>
+            <a href="/html/Verified_Aids.html"><i class="fa-solid fa-clipboard-check me-2"></i> Verified Aid</a>
+            <a href="/html/Manage_Leaders.html"><i class="fa-solid fa-user-gear me-2"></i> Manage Leaders</a>
+            <a href="#"><i class="fa-solid fa-chart-pie me-2"></i> Analytics</a>
+            <a href="/html/leaderLogin.html"><i class="fa-solid fa-sign-out-alt me-2"></i> Logout</a>
+      </div>
+
+<!-- Main Content -->
+      <div class="main-content">
+      <!-- Top Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-light mb-4">
+                  <div class="container-fluid d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold">District Reports</h5>
+                        <div>
+                              <button class="btn btn-success btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addReportModal"><i class="fa fa-plus"></i> Add Report</button>
+                              <button class="btn btn-outline-primary btn-sm me-2"><i class="fa fa-file-excel"></i> Export</button>
+                              <button class="btn btn-outline-secondary btn-sm"><i class="fa fa-print"></i> Print</button>
+                        </div>
+                  </div>
+            </nav>
+
+      <!-- KPI Cards -->
+      <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                  <div class="kpi-card">
+                        <h6>Total Aid Dispatched</h6>
+                        <h4 class="text-primary">12,500 kg</h4>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                  <div class="kpi-card">
+                        <h6>Verified Deliveries</h6>
+                        <h4 class="text-success">10,800 kg</h4>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                  <div class="kpi-card">
+                        <h6>Pending Deliveries</h6>
+                        <h4 class="text-warning">1,700 kg</h4>
+                  </div>
+            </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="card p-3 mb-4">
+            <div class="row">
+                  <div class="col-md-4 mb-2">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search by district or report">
+                  </div>
+                  <div class="col-md-4 mb-2">
+                        <select id="districtFilter" class="form-select">
+                              <option value="">Filter by District</option>
+                              <option value="gakenke">GAKENKE</option>
+                              <option value="gicumbi">GICUMBI</option>
+                              <option value="musanze">MUSANZE</option>
+                              <option value="rulindo">RULINDO</option>
+                              <option value="gisagara">GISAGARA</option>
+                              <option value="huye">HUYE</option>
+                              <option value="kamonyi">KAMONYI</option>
+                              <option value="nyamagabe">NYAMAGABE</option>
+                              <option value="nyanza">NYANZA</option>
+                              <option value="nyaruguru">NYARUGURU</option>
+                              <option value="ruhango">RUHANGO</option>
+                              <option value="ruhango">MUHANGA</option>
+                              <option value="bugesera">BUGESERA</option>
+                              <option value="gatsibo">GATSIBO</option>
+                              <option value="kayonza">KAYONZA</option>
+                              <option value="kirehe">KIREHE</option>
+                              <option value="ngoma">NGOMA</option>
+                              <option value="nyagatare">NYAGATARE</option>
+                              <option value="rwamagana">RWAMAGANA</option>
+                              <option value="karongi">KARONGI</option>
+                              <option value="ngororero">NGORORERO</option>
+                              <option value="nyabihu">NYABIHU</option>
+                              <option value="nyamasheke">NYAMASHEKE</option>
+                              <option value="rubavu">RUBAVU</option>
+                              <option value="rusizi">RUSIZI</option>
+                              <option value="rutsiro">RUTSIRO</option>
+                              <option value="gasabo">GASABO</option>
+                              <option value="kicukiro">KICUKIRO</option>
+                              <option value="nyarugenge">NYARUGENGE</option>
+                        </select>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                        <select id="statusFilter" class="form-select">
+                              <option value="">Filter by Status</option>
+                              <option value="Completed">Completed</option>
+                              <option value="Pending">Pending</option>
+                        </select>
+                  </div>
+            </div>
+      </div>
+
+      <!-- Reports Table -->
+      <div class="card p-3">
+            <table class="table table-bordered table-hover" id="reportsTable">
+                  <thead>
+                        <tr>
+                              <th>ID</th>
+                              <th>District</th>
+                              <th>Sector</th>
+                              <th>Total Aid</th>
+                              <th>Verified</th>
+                              <th>Status</th>
+                              <th>Last Update</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr>
+                              <td>R001</td>
+                              <td>Gasabo</td>
+                              <td>Kimironko</td>
+                              <td>5,000 kg</td>
+                              <td>4,800 kg</td>
+                              <td><span class="badge bg-success">Completed</span></td>
+                              <td>2025-08-20</td>
+                        </tr>
+                        <tr>
+                              <td>R002</td>
+                              <td>Kicukiro</td>
+                              <td>Kagarama</td>
+                              <td>3,500 kg</td>
+                              <td>2,900 kg</td>
+                              <td><span class="badge bg-warning text-dark">Pending</span></td>
+                              <td>2025-08-19</td>
+                        </tr>
+                        <tr>
+                              <td>R003</td>
+                              <td>Nyarugenge</td>
+                              <td>Nyamirambo</td>
+                              <td>4,000 kg</td>
+                              <td>3,100 kg</td>
+                              <td><span class="badge bg-success">Completed</span></td>
+                              <td>2025-08-18</td>
+                        </tr>
+                  </tbody>
+            </table>
+      </div>
+      </div>
+
+<!-- Add Report Modal -->
+      <div class="modal fade" id="addReportModal" tabindex="-1" aria-labelledby="addReportModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                              <h5 class="modal-title" id="addReportModalLabel">Add New District Report</h5>
+                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                              <form id="addReportForm">
+                                    <div class="row">
+                                          <div class="col-md-6 mb-3">
+                                                <label>District</label>
+                                                <select class="form-select" name="district" required>
+                                                      <option value="">Select District</option>
+                                                      <option>Gasabo</option>
+                                                      <option>Kicukiro</option>
+                                                      <option>Kirehe</option>
+                                                      <option>Gicumbi</option>
+                                                      <option>Nyamagabe</option>
+                                                      <option>Nyabihu</option>
+                                                      <option>Rulindo</option>
+                                                      <option>Musanze</option>
+                                                      <option>Nyarugenge</option>
+                                                      <option>Karongi</option>
+                                                      <option>Gakenke</option>
+                                                      <option>Rubavu</option>
+                                                      <option>Ngoma</option>
+                                                      <option>Nyagatare</option>
+                                                      <option>Kayonza</option>
+                                                      <option>Burera</option>
+                                                      <option>Rusizi</option>
+                                                      <option>Huye</option>
+                                                      <option>Kamonyi</option>
+                                                      <option>Muhanga</option>
+                                                      <option>Ruhango</option>
+                                                      <option>Rutsiro</option>
+                                                      <option>Nyaruguru</option>
+                                                      <option value="gisagara">Gisagara</option>
+                                                </select>
+                                          </div>
+                                          <div class="col-md-6 mb-3">
+                                                <label>Sector</label>
+                                                <input type="text" class="form-control" name="sector" required>
+                                          </div>
+                                          <div class="col-md-6 mb-3">
+                                                <label>Total Aid</label>
+                                                <input type="text" class="form-control" name="total" required>
+                                          </div>
+                                          <div class="col-md-6 mb-3">
+                                                <label>Verified Aid</label>
+                                                <input type="text" class="form-control" name="verified" required>
+                                          </div>
+                                          <div class="col-md-6 mb-3">
+                                                <label>Status</label>
+                                                <select class="form-select" name="status" required>
+                                                      <option value="">Select Status</option>
+                                                      <option>Completed</option>
+                                                      <option>Pending</option>
+                                                </select>
+                                          </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Report</button>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/NationalDashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Umujyanama w’Ubuzima Dashboard</title>
+      <link rel="stylesheet" href="/css/umujyanama.css">
+</head>
+<body>
+      <header>
+            <h1>Umujyanama w’Ubuzima Dashboard</h1>
+      </header>
+      <!-- Login Screen -->
+      <main id="login-screen">
+            <div class="card">
+                  <h2>Injira</h2>
+                  <label for="name">Izina / ID</label>
+                  <input type="text" id="name" placeholder="Injiza izina ryawe" required>
+                  <label for="sector">Umurenge / Sector</label>
+                  <input type="text" id="sector" placeholder="Injiza sector yawe" required>
+                  <label for="cell">Akagari / Cell</label>
+                  <input type="text" id="cell" placeholder="Injiza cell yawe" required>
+                  <label for="password">Ijambo ry'ibanga / password</label>
+                  <input type="password" id="password" placeholder="Injiza password" required>
+                  <button onclick="login()">Injira / Login</button>
+            </div>
+      </main>
+      <!-- Dashboard Screen -->
+      <div id="dashboard" class="hidden">
+            <nav>
+                  <h2 id="welcome"></h2>
+                  <button onclick="logout()">Sohoka</button>
+            </nav>
+            <main>
+                  <div class="card">
+                        <h3>Kohereza Raporo y’Ibikorwa</h3>
+                        <label>Aid Distributed</label>
+                        <select id="aidType">
+                              <option value="Shisha Kibondo">Shisha Kibondo</option>
+                              <option value="Inzitiramibu">Inzitiramibu</option>
+                              <option value="Ikindi">Ikindi</option>
+                        </select>
+                        <label>Umubare w’abana bahawe</label>
+                        <input type="number" id="childrenCount">
+                        <button onclick="submitReport()">Ohereza Raporo</button>
+                  </div>
+
+                  <div class="card">
+                        <h3>Kubaza / Gusaba izindi Supplies</h3>
+                        <label>Aid Type</label>
+                        <input type="text" id="requestAid" placeholder="Urugero: Inzitiramibu">
+                        <label>Umubare usabwa</label>
+                        <input type="number" id="requestQty">
+                        <button onclick="submitRequest()">Ohereza Ibisabwa</button>
+                  </div>
+
+                  <div class="card">
+                        <h3>Amakuru y’ingenzi</h3>
+                        <textarea id="messageText" rows="4" placeholder="Andika ubutumwa ku muyobozi wumurenge uherereyemo"></textarea>
+                        <button onclick="sendMessage()">Ohereza Ubutumwa</button>
+                  </div>
+
+                  <div class="card">
+                        <h3>Raporo zawe</h3>
+                        <ul id="reportsList"></ul>
+                  </div>
+
+                  <div class="card">
+                        <h3>Ibyo wasabye</h3>
+                        <ul id="requestsList"></ul>
+                  </div>
+
+                  <div class="card">
+                        <h3>Ubutumwa bwawe</h3>
+                        <ul id="messagesList"></ul>
+                  </div>
+            </main>
+      </div>
+      <script src="/js/umujyanama.js"></script>
+</body>
+</html>

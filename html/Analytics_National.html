@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics - DTS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/css/Analytics_National.css">
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+  <h4 class="text-center mb-4">National Dashboard</h4>
+  <a href="/html/Overview.html"><i class="fa-solid fa-chart-line me-2"></i> Overview</a>
+  <a href="/html/district_Report.html"><i class="fa-solid fa-map me-2"></i> District Reports</a>
+  <a href="/html/Verified_Aids.html"><i class="fa-solid fa-clipboard-check me-2"></i> Verified Aid</a>
+  <a href="/html/Manage_Leaders.html"><i class="fa-solid fa-user-gear me-2"></i> Manage Leaders</a>
+  <a href="#" class="bg-primary rounded"><i class="fa-solid fa-chart-pie me-2"></i> Analytics</a>
+  <a href="/html/leaderLogin.html"><i class="fa-solid fa-sign-out-alt me-2"></i> Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light mb-4">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <h5 class="fw-bold">Analytics & Insights</h5>
+    </div>
+  </nav>
+
+  <!-- Summary Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="summary-card">
+        <h3>5,555</h3>
+        <p>Total Leaders</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="summary-card">
+        <h3>12,000</h3>
+        <p>Reports Submitted</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="summary-card">
+        <h3>10,200</h3>
+        <p>Verified Reports</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="summary-card">
+        <h3>1,800</h3>
+        <p>Pending Reports</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row">
+    <div class="col-lg-4 mb-4">
+      <h6 class="fw-bold mb-2">Leader Distribution by Role</h6>
+      <canvas id="leaderRoleChart" height="250"></canvas>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <h6 class="fw-bold mb-2">Reports Submitted Over Time</h6>
+      <canvas id="reportsOverTimeChart" height="250"></canvas>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <h6 class="fw-bold mb-2">Verified vs Pending Reports</h6>
+      <canvas id="reportStatusChart" height="250"></canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/Analytics_National.js"></script>
+</body>
+</html>

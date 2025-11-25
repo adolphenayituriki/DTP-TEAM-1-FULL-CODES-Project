@@ -1,0 +1,43 @@
+body {
+      background: #f0f2f5;
+      padding-top: 80px; /* Keep content from hiding under fixed navbar */
+}
+
+.page-title {
+      font-weight: 700;
+      color: #003366;
+}
+
+/* Make navigation stable (fixed at top) */
+.navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999; /* ensures navbar stays above all content */
+}
+
+.track-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      border-left: 6px solid #0d6efd;
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.09);
+}
+
+.icon-box {
+      width: 60px;
+      height: 60px;
+      background: #0d6efd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 15px auto;
+      color: #fff;
+      font-size: 28px;
+}
+
+.form-label i {
+      color: #0d6efd;
+      margin-right: 5px;
+}

@@ -17,6 +17,12 @@ nav.navbar .nav-link, nav.navbar .navbar-brand {
 nav.navbar .nav-link:hover {
       color: #ffd700 !important;
 }
+.navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999; /* ensures navbar stays above all content */
+}
 /* ====== Page Header ====== */
 .page-header {
       text-align: center;

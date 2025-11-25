@@ -26,7 +26,7 @@ const aidDatabase = [
                   resultDiv.className = "success";
                   addToTable(codeInput, aidEntry.status);
             } else {
-                  resultDiv.textContent = `Aid Code ${codeInput} not found.`;
+                  resultDiv.textContent = `Aid Code ${codeInput} not found for you. Try to enter your correct aid code to track status.`;
                   resultDiv.className = "error";
             }
 
